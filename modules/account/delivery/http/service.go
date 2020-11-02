@@ -4,20 +4,22 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"training1_gokit/middleware"
+	"training1_gokit/utils/decodeencode"
+
+	"training1_gokit/modules/account"
+	delivery "training1_gokit/modules/account/delivery"
 
 	"github.com/go-kit/kit/log"
 
 	httptransport "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
-	"github.com/muhammadisa/go-kit-boilerplate/middleware"
-	"github.com/muhammadisa/go-kit-boilerplate/services/user/delivery"
-	"github.com/muhammadisa/go-kit-boilerplate/utils/decodeencode"
 )
 
 // NewHTTPServe create http server with go standard lib
 func NewHTTPServe(
 	ctx context.Context,
-	svcEndpoints delivery.Endpoints,
+	svcEndpoints account.Endpoints,
 	logger log.Logger,
 ) http.Handler {
 	// Initialize mux router error logger and error
@@ -37,14 +39,14 @@ func NewHTTPServe(
 	r.Use(mux.CORSMethodMiddleware(r))
 
 	// Creating routes
-	r.Methods("POST").Path("/user/register").Handler(httptransport.NewServer(
-		svcEndpoints.Register,
+	r.Methods("POST").Path("/user").Handler(httptransport.NewServer(
+		svcEndpoints.CreateUser,
 		decodeCreateUserRequest,
 		decodeencode.EncodeResponse,
 		options...,
 	))
-	r.Methods("POST").Path("/user/login").Handler(httptransport.NewServer(
-		svcEndpoints.Login,
+	r.Methods("GET").Path("/user/{id}").Handler(httptransport.NewServer(
+		svcEndpoints.GetUser,
 		decodeGetUserRequest,
 		decodeencode.EncodeResponse,
 		options...,
@@ -57,7 +59,7 @@ func decodeCreateUserRequest(
 	_ context.Context,
 	r *http.Request,
 ) (interface{}, error) {
-	var req delivery.CreateRegisterRequest
+	var req delivery.CreateUserRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		return nil, err
@@ -69,7 +71,7 @@ func decodeGetUserRequest(
 	_ context.Context,
 	r *http.Request,
 ) (interface{}, error) {
-	var req delivery.CreateLoginRequest
+	var req delivery.GetUserRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		return nil, err

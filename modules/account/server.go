@@ -3,6 +3,7 @@ package account
 import (
 	"context"
 	"net/http"
+	"training1_gokit/middleware"
 
 	httptransport "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
@@ -10,7 +11,7 @@ import (
 
 func NewHTTPServer(ctx context.Context, endpoints Endpoints) http.Handler {
 	r := mux.NewRouter()
-	r.Use(commonMiddleware)
+	r.Use(middleware.ContentTypeMiddleware)
 
 	r.Methods("POST").Path("/user").Handler(httptransport.NewServer(
 		endpoints.CreateUser,
@@ -26,11 +27,4 @@ func NewHTTPServer(ctx context.Context, endpoints Endpoints) http.Handler {
 
 	return r
 
-}
-
-func commonMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Content-Type", "application/json")
-		next.ServeHTTP(w, r)
-	})
 }

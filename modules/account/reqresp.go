@@ -47,4 +47,3 @@ func decodeEmailReq(ctx context.Context, r *http.Request) (interface{}, error) {
 	}
 	return req, nil
 }
-
