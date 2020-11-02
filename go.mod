@@ -9,6 +9,8 @@ require (
 	github.com/gofrs/uuid v3.3.0+incompatible
 	github.com/golang/protobuf v1.4.3
 	github.com/gorilla/mux v1.8.0
+	github.com/jinzhu/gorm v1.9.16
+	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.8.0
 	golang.org/x/net v0.0.0-20201031054903-ff519b6c9102 // indirect
 	golang.org/x/sys v0.0.0-20201101102859-da207088b7d1 // indirect

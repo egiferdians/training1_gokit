@@ -18,20 +18,31 @@ import (
 	"syscall"
 
 	"training1_gokit/modules/account"
+
+	"github.com/joho/godotenv"
 )
 
 const (
-	hostname = "localhost"
-	host_port = 5432
-	username = "postgres"
-	password = "admin123"
+	hostname      = "localhost"
+	host_port     = 5432
+	username      = "postgres"
+	password      = "admin123"
 	database_name = "training1_gokit"
 )
 
+func loadEnvironment(logger log.Logger) {
+	// Load environment
+	err := godotenv.Load()
+	if err != nil {
+		level.Error(logger).Log("exit", err)
+		os.Exit(-1)
+	}
+}
+
 func main() {
 	dbsource := fmt.Sprintf("port=%d host=%s user=%s "+
-"password=%s dbname=%s sslmode=disable",
-host_port, hostname, username, password, database_name)
+		"password=%s dbname=%s sslmode=disable",
+		host_port, hostname, username, password, database_name)
 
 	var httpAddr = flag.String("http", ":8080", "http listen address")
 	var logger log.Logger
