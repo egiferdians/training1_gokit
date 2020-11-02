@@ -22,7 +22,7 @@ func NewService(rep Repository, logger log.Logger) Service {
 
 func (s service) CreateUser(ctx context.Context, email string, password string) (string, error) {
 	logger := log.With(s.logger, "method", "CreateUser")
-	
+
 	uuid, _ := uuid.NewV4()
 	id := uuid.String()
 	user := Account{

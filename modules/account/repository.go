@@ -18,7 +18,7 @@ type repo struct {
 func NewRepo(db *sql.DB, logger log.Logger) Repository {
 	return &repo{
 		db:     db,
-		logger: log.With(logger, "repo", "sql"),
+		logger: logger,
 	}
 }
 
@@ -39,7 +39,7 @@ func (repo *repo) CreateUser(ctx context.Context, user Account) error {
 }
 
 func (repo *repo) GetUser(ctx context.Context, id string) (string, error) {
-	var email string 
+	var email string
 	err := repo.db.QueryRow("SELECT email FROM account WHERE id=$1", id).Scan(&email)
 	if err != nil {
 		return "", RepoErr

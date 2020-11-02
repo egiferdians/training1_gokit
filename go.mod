@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/go-kit/kit v0.10.0
 	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/gocraft/dbr v0.0.0-20190714181702-8114670a83bd // indirect
 	github.com/gocraft/dbr/v2 v2.7.0
 	github.com/gofrs/uuid v3.3.0+incompatible
 	github.com/golang/protobuf v1.4.3
