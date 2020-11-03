@@ -2,21 +2,21 @@ package delivery
 
 // Types for request and responses
 type (
-	// CreateRegisterRequest struct
+	// CreateUserRequest struct
 	CreateUserRequest struct {
-		Email     string `json:"email"`
-		Passwords string `json:"passwords"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
 	}
 	// CreateRegisterResponse struct
 	CreateUserResponse struct {
-		Status string `json:"status"`
+		Ok string `json:"ok"`
 	}
-	// CreateLoginRequest struct
+	// GetUserRequest struct
 	GetUserRequest struct {
 		Id string `json:"id"`
 	}
 	// CreateLoginResponse struct
 	GetUserResponse struct {
-		Status string `json:"status"`
+		Email string `json:"email"`
 	}
 )

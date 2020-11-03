@@ -10,7 +10,7 @@ service AccountService {
 
 message CreateUserRequest {
     string email = 1;
-    string passwords = 2;
+    string password = 2;
 }
 
 message GetUserRequest {
@@ -18,9 +18,9 @@ message GetUserRequest {
 }
 
 message CreateUserResponse {
-    string result = 1;
+    string ok = 1;
 }
 
 message GetUserResponse {
-    string result = 1;
+    string email = 1;
 }

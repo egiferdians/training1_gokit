@@ -7,7 +7,6 @@ import (
 	"training1_gokit/middleware"
 	"training1_gokit/utils/decodeencode"
 
-	"training1_gokit/modules/account"
 	delivery "training1_gokit/modules/account/delivery"
 
 	"github.com/go-kit/kit/log"
@@ -19,7 +18,7 @@ import (
 // NewHTTPServe create http server with go standard lib
 func NewHTTPServe(
 	ctx context.Context,
-	svcEndpoints account.Endpoints,
+	svcEndpoints delivery.Endpoints,
 	logger log.Logger,
 ) http.Handler {
 	// Initialize mux router error logger and error

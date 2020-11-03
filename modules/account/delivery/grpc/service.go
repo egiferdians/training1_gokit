@@ -3,9 +3,7 @@ package grpc
 import (
 	"context"
 
-	"training1_gokit/modules/account"
 	delivery "training1_gokit/modules/account/delivery"
-
 	"training1_gokit/modules/account/delivery/protobuf/account_grpc"
 
 	"github.com/go-kit/kit/log"
@@ -21,7 +19,7 @@ type grpcServer struct {
 
 // NewGRPCServer create grpc server
 func NewGRPCServer(
-	svcEndpoints account.Endpoints,
+	svcEndpoints delivery.Endpoints,
 	logger log.Logger,
 ) account_grpc.AccountServiceServer {
 	var options []kitgrpc.ServerOption
@@ -31,14 +29,14 @@ func NewGRPCServer(
 	return &grpcServer{
 		createuser: kitgrpc.NewServer(
 			svcEndpoints.CreateUser,
-			decodeRegisterRequest,
-			encodeRegisterResponse,
+			decodeCreateUserRequest,
+			encodeCreateUserResponse,
 			options...,
 		),
 		getuser: kitgrpc.NewServer(
 			svcEndpoints.GetUser,
-			decodeLoginRequest,
-			encodeLoginResponse,
+			decodeGetUserRequest,
+			encodeGetUserResponse,
 			options...,
 		),
 		logger: logger,
@@ -65,20 +63,20 @@ func (s *grpcServer) GetUser(
 	return rep.(*account_grpc.GetUserResponse), nil
 }
 
-// decodeRegisterRequest to json
-func decodeRegisterRequest(
+// decodeCreateUserRequest to json
+func decodeCreateUserRequest(
 	_ context.Context,
 	request interface{},
 ) (interface{}, error) {
 	req := request.(*account_grpc.CreateUserRequest)
 	return delivery.CreateUserRequest{
-		Email:     req.Email,
-		Passwords: req.Passwords,
+		Email:    req.Email,
+		Password: req.Password,
 	}, nil
 }
 
-// decodeLoginRequest to json
-func decodeLoginRequest(
+// decodeGetUserRequest to json
+func decodeGetUserRequest(
 	_ context.Context,
 	request interface{},
 ) (interface{}, error) {
@@ -88,20 +86,20 @@ func decodeLoginRequest(
 	}, nil
 }
 
-// encodeRegisterResponse to json
-func encodeRegisterResponse(
+// encodeCreateUserResponse to json
+func encodeCreateUserResponse(
 	_ context.Context,
 	response interface{},
 ) (interface{}, error) {
 	res := response.(delivery.CreateUserResponse)
-	return &account_grpc.CreateUserResponse{Result: res.Status}, nil
+	return &account_grpc.CreateUserResponse{Ok: res.Ok}, nil
 }
 
-// encodeLoginResponse to json
-func encodeLoginResponse(
+// encodeGetUserResponse to json
+func encodeGetUserResponse(
 	_ context.Context,
 	response interface{},
 ) (interface{}, error) {
 	res := response.(delivery.GetUserResponse)
-	return &account_grpc.GetUserResponse{Result: res.Status}, nil
+	return &account_grpc.GetUserResponse{Email: res.Email}, nil
 }
